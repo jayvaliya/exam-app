@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@repo/db": "*",
+    "@repo/utils": "*",
     "@types/bcrypt": "^5.0.2",
     "@types/bcryptjs": "^2.4.6",
     "axios": "^1.7.7",

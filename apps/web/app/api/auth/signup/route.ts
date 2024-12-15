@@ -1,18 +1,26 @@
-// api/signup/user/route.js
+// api/signup/seller/route.ts
 import { PrismaClient } from '@repo/db';
 import bcrypt from 'bcryptjs';
+import { uploadFile } from '@repo/utils';
 
 const prisma = new PrismaClient();
 
 export async function POST(req: Request) {
     try {
-        const { email, password, firstName, lastName } = await req.json();
-        console.log(email, password, firstName, lastName);
+        console.log('POST request received');
+
+        const formData = await req.formData();
+
+        const email = formData.get("email")?.toString();
+        const password = formData.get("password")?.toString();
+        const firstName = formData.get("firstName")?.toString();
+        const lastName = formData.get("lastName")?.toString();
+        const profilePicture = formData.get("profilePicture") as File;
 
         // Basic input validation
         if (!email || !password || !firstName || !lastName) {
             return new Response(
-                JSON.stringify({ error: 'Email, password, first name and last name are required' }),
+                JSON.stringify({ message: 'All required fields (email, password, firstName, lastName) must be filled' }),
                 {
                     status: 400,
                     headers: { 'Content-Type': 'application/json' },
@@ -26,7 +34,7 @@ export async function POST(req: Request) {
         });
         if (existingUser) {
             return new Response(
-                JSON.stringify({ error: 'You are already a buyer.' }),
+                JSON.stringify({ error: 'Email already exists' }),
                 {
                     status: 400,
                     headers: { 'Content-Type': 'application/json' },
@@ -34,38 +42,28 @@ export async function POST(req: Request) {
             );
         }
 
-        // Check if seller already exists
-        const existingSeller = await prisma.seller.findUnique({
-            where: { email },
-        });
-        if (existingSeller) {
-            return new Response(
-                JSON.stringify({ error: 'You are already a Seller.' }),
-                {
-                    status: 400,
-                    headers: { 'Content-Type': 'application/json' },
-                }
-            );
-        }
-
-        // Hash password
+        // Hash the password
         const hashedPassword = await bcrypt.hash(password, 10);
 
-        // Create new user
+        // Upload profile picture to R2
+        const profilePictureUrl = profilePicture ? await uploadFile(profilePicture) : "";
+
+        // Create the user
         const user = await prisma.user.create({
             data: {
                 email,
                 password: hashedPassword,
                 firstName,
-                lastName
+                lastName,
+                profilePicture: profilePictureUrl,
             },
         });
 
-        // Respond with the created user (excluding password for security)
+        // Exclude password from the response
         const { password: _, ...userWithoutPassword } = user;
 
-        // Create a response object
-        const response = new Response(
+        // Respond with the created user
+        return new Response(
             JSON.stringify({
                 message: 'User created successfully',
                 user: userWithoutPassword,
@@ -75,17 +73,10 @@ export async function POST(req: Request) {
                 headers: { 'Content-Type': 'application/json' },
             }
         );
-
-        // // Set CORS headers
-        // response.headers.set('Access-Control-Allow-Origin', '*'); // or specify your origin
-        // response.headers.set('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-        // response.headers.set('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-        return response;
     } catch (error) {
-        console.error("Signup Error:", error);
+        console.error('Signup Error:', error);
         return new Response(
-            JSON.stringify({ message: 'Internal server error' }),
+            JSON.stringify({ message: 'Internal server error', error: error || '' }),
             {
                 status: 500,
                 headers: { 'Content-Type': 'application/json' },

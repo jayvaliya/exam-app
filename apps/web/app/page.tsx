@@ -1,15 +1,12 @@
-// app/page.tsx
+import React from 'react'
 
-import { getServerSession } from "next-auth";
-import { nextAuthOptions } from "./api/auth/[...nextauth]/options";
-import { Toaster } from "react-hot-toast";
-
-export default async function Home() {
-  const session = await getServerSession(nextAuthOptions)
+function page() {
   return (
     <div>
-      session: {JSON.stringify(session)}
-      <Toaster />
+      This is /
+      {/* write you code here.. */}
     </div>
-  );
+  )
 }
+
+export default page
