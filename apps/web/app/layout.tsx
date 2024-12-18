@@ -14,10 +14,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en">
-      <body className="bg-zinc-200 text-black">
-        <Navbar />
+    <html lang="en" >
+      <body className=" font-poppins bg-zinc-200 text-black">
+        <Navbar/>
         <main>
           <Providers>{children}</Providers>
         </main>

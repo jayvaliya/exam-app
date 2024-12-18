@@ -1,7 +1,13 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap');
 
+/* Change selection color for all elements */
+::selection {
+    background-color: #46464c74; /* Change this to your desired background color */
+    color: #000000; /* Change this to your desired text color */
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;
