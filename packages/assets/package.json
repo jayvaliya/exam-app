@@ -1,0 +1,12 @@
+{
+    "name": "@repo/assets",
+    "version": "1.0.0",
+    "main": "index.js",
+    "files": ["images/", "index.js"],
+    "type": "module",
+    "scripts": {
+    },
+    "exports": {
+    ".": "./index.js"
+    }
+}

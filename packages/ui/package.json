@@ -3,6 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./icon": "./src/icon.tsx",
+    "./text-button": "./src/text-button.tsx",
+    "./footer": "./src/footer.tsx",
     "./black-button": "./src/black-button.tsx",
     "./navbar": "./src/navbar.tsx",
     "./button": "./src/button.tsx",
@@ -17,14 +20,15 @@
     "@repo/eslint-config": "*",
     "@repo/typescript-config": "*",
     "@turbo/gen": "^1.12.4",
-    "@types/node": "^20.11.24",
     "@types/eslint": "^8.56.5",
+    "@types/node": "^20.11.24",
     "@types/react": "^18.2.61",
     "@types/react-dom": "^18.2.19",
     "eslint": "^8.57.0",
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "react": "^18.2.0"
+    "react": "^18.2.0",
+    "react-icons": "^5.4.0"
   }
 }
