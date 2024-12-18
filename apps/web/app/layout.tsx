@@ -20,10 +20,10 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
   return (
-    <html lang="en" className={inter.className}>
-      {/* <html lang="en"> */}
-      <body className="bg-zinc-300 text-black">
+    <html lang="en" >
+      <body className=" font-poppins bg-zinc-200 text-black">
         <Navbar />
         <main>
           <Providers>{children}</Providers>
