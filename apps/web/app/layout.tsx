@@ -3,6 +3,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@repo/ui/navbar";
 import Providers from "./providers";
+import { Inter } from 'next/font/google'
+
+const inter = Inter({
+  subsets: ['latin'],
+  display: 'swap',
+})
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -15,8 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className="bg-zinc-200 text-black">
+    <html lang="en" className={inter.className}>
+      {/* <html lang="en"> */}
+      <body className="bg-zinc-300 text-black">
         <Navbar />
         <main>
           <Providers>{children}</Providers>

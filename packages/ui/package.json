@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./modal": "./src/modal.tsx",
     "./black-button": "./src/black-button.tsx",
     "./navbar": "./src/navbar.tsx",
     "./button": "./src/button.tsx",

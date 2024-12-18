@@ -5,7 +5,7 @@ import { PrismaClient } from "@repo/db";
 
 const prisma = new PrismaClient();
 
-export const nextAuthOptions: NextAuthOptions = {
+const nextAuthOptions: NextAuthOptions = {
     providers: [
         CredentialsProvider({
             id: "credentials",
@@ -61,3 +61,6 @@ export const nextAuthOptions: NextAuthOptions = {
         signIn: '/login',
     },
 };
+
+
+export default nextAuthOptions;

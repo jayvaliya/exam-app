@@ -18,6 +18,7 @@ model User {
   createdAt      DateTime @default(now())
   profilePicture String   @default("")
   note           Note[]
+  // folders        Folder[] // Updated for clarity and consistency
 }
 
 model Note {
@@ -27,4 +28,19 @@ model Note {
   createdAt DateTime @default(now())
   authorId  String
   author    User     @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  // parentId  Int?
+  // parent    Folder?  @relation(fields: [parentId], references: [id], onDelete: Cascade)
 }
+
+// model Folder {
+//   id       Int      @id @default(autoincrement())
+//   name     String   @db.VarChar(255)
+//   parentId Int?     // Optional parent folder
+//   userId   String   // Updated to match User `id` type
+//   parent   Folder?  @relation("ParentChild", fields: [parentId], references: [id], onDelete: Cascade)
+//   children Folder[] @relation("ParentChild")
+//   user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+//   notes    Note[]   // Relation for notes inside a folder
+
+//   @@index([parentId]) // Optional: Index for efficient querying of parent-child relationships
+// }
