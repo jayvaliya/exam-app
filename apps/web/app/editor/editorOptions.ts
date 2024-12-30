@@ -1,13 +1,14 @@
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Quote from '@editorjs/quote';
-import ImageTool from '@editorjs/image';
+// import Marker from '@editorjs/Marker';
 import CodeTool from '@editorjs/code';
+import { copyFileSync } from 'node:fs';
 
 const editorOptions = {
     holder: 'editorjs', // ID of the container
 
-    inlineToolbar: ['link', 'bold', 'italic'],
+    inlineToolbar: ['link', 'bold', 'italic', 'marker'],
 
     tools: {
         header: {
@@ -15,19 +16,20 @@ const editorOptions = {
             inlineToolbar: true,
             placeholder: 'Enter a heading...',
             config: {
-                levels: [1, 2, 3],  // Allow H1, H2, H3
-                defaultLevel: 1,     // Default heading level when inserting
+                levels: [1, 2, 3],
+                defaultLevel: 1,
             },
         },
         list: {
             class: List,
             inlineToolbar: true,
-            placeholder: 'Enter list items...', // Tooltip for the List block
+            placeholder: 'Enter list items...',
         },
         quote: {
             class: Quote,
             inlineToolbar: true,
-            placeholder: 'Enter a quote...', // Tooltip for the Quote block
+            placeholder: 'Enter a quote...',
+            defaultClasses: ['cdx-quote', 'cdx-quote__caption']
         },
         // image: {
         //     class: ImageTool,
@@ -48,12 +50,14 @@ const editorOptions = {
         //             },
         //         },
         //     },
-        //     placeholder: 'Upload an image...', // Tooltip for the Image block
+        //     placeholder: 'Upload an image...',
         // },
+
         code: {
             class: CodeTool,
             inlineToolbar: true,
-            placeholder: 'Write your code...', // Tooltip for the Code block
+            placeholder: 'Write your code...',
+            defaultClasses: ['cdx-code'],
         },
     },
 }

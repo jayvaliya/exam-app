@@ -1,29 +1,30 @@
-const { fontFamily } = require('tailwindcss/defaultTheme')
+const { fontFamily } = require('tailwindcss/defaultTheme');
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
   content: [
-    '../../packages/ui/**/*.{js,ts,jsx,tsx}',
+    '../../ui/src/**/*.{ts,jsx,tsx}',
+    '../../apps/web/**/*.{js,ts,jsx,tsx}',
     './**/*.{js,ts,jsx,tsx}',
     './pages/**/*.{js,ts,jsx,tsx}',
   ],
   theme: {
     extend: {
-      fontFamily:{
-        poppins: ['Poppins', ...fontFamily.sans]
+      fontFamily: {
+        poppins: ['Poppins', ...fontFamily.sans],
       },
       animation: {
-        firework: 'firework 1.5s ease-in-out infinite'
+        firework: 'firework 1.5s ease-in-out infinite',
       },
 
-      keyframes:{
+      keyframes: {
         firework: {
           '0%': { transform: 'scale(0)' },
           '50%': { transform: 'scale(1)', opacity: '0.6' }, // Adjusted for softness
           '100%': { transform: 'scale(0)', opacity: '0' },
         },
-      }
+      },
     },
   },
-  plugins: []
+  plugins: [],
 };

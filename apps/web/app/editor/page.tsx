@@ -1,23 +1,22 @@
 "use client";
 
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import EditorJS from '@editorjs/editorjs';
 import BlackButton from '@repo/ui/black-button';
 import axios from 'axios';
-import { titleState } from '@repo/store';
-import { useRecoilState } from 'recoil';
 import editorOptions from './editorOptions';
 import { redirect } from 'next/navigation'
 
 
-
-function Page() {
+function EditorPage() {
     const editorRef = useRef(null);
-    const [title, setTitle] = useRecoilState(titleState);
+    const [title, setTitle] = useState('');
 
     useEffect(() => {
         if (!editorRef.current) {
+            // @ts-ignore
             const editor = new EditorJS(editorOptions);
+            // @ts-ignore
             editorRef.current = editor;
         }
     }, []);
@@ -27,16 +26,20 @@ function Page() {
         const editor = editorRef.current;
 
         if (editor) {
+            // @ts-ignore
             const rawData = await editor.save();
             if (title.trim() == '' || rawData.blocks.length === 0) {
                 alert('Please add a title and content before saving.');
                 return;
             }
             const data = JSON.stringify(rawData);
-            const response = (await axios.post('/api/savenote', { data, title })).data;
+            const response = (await axios.post('/api/savenote', { data, title }));
 
             if (response.status === 200) {
-                return redirect('/');
+                return redirect('/dashboard');
+            }
+            else if (response.status === 401) {
+                alert('Please log in to save a note.');
             }
         }
     };
@@ -58,4 +61,4 @@ function Page() {
     );
 }
 
-export default Page;
+export default EditorPage;

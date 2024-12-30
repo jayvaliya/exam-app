@@ -5,9 +5,12 @@
 
 /* Change selection color for all elements */
 ::selection {
-    background-color: #46464c74; /* Change this to your desired background color */
-    color: #000000; /* Change this to your desired text color */
+  background-color: #46464c74;
+  /* Change this to your desired background color */
+  color: #000000;
+  /* Change this to your desired text color */
 }
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -27,11 +30,38 @@
 }
 
 @layer base {
+
+  /* style for headings in editor.js */
   h1 {
     @apply text-2xl;
   }
+
   h2 {
     @apply text-xl;
   }
-  /* ... */
+
+  ul {
+    @apply text-base;
+  }
+
+  ol {
+    @apply text-base;
+  }
+
+  /* style for quotes in editor.js */
+  .cdx-quote {
+    @apply italic text-gray-700 pl-4 border-l-4 border-yellow-500 bg-yellow-50 rounded-md py-2;
+  }
+
+  .cdx-quote__caption {
+    @apply text-right font-bold text-yellow-700;
+  }
+
+  .cdx-code {
+    @apply bg-gray-900 text-white font-mono text-sm rounded-md p-4 overflow-auto;
+  }
+
+  .cdx-code__textarea {
+    @apply text-gray-200 whitespace-pre-wrap leading-relaxed;
+  }
 }

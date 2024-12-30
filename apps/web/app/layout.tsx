@@ -2,8 +2,12 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@repo/ui/navbar";
-import Providers from "./providers";
+import Providers from "./Providers";
 import { Inter } from 'next/font/google'
+import { getServerSession } from "next-auth";
+import nextAuthOptions from "../../../packages/utils/nextAuthOptions";
+
+const session = getServerSession(nextAuthOptions);
 
 const inter = Inter({
   subsets: ['latin'],
@@ -22,9 +26,9 @@ export default function RootLayout({
 }>) {
 
   return (
-    <html lang="en" >
-      <body className=" font-poppins bg-zinc-200 text-black">
-        <Navbar />
+    <html lang="en" className={inter.className}>
+      <body className="bg-zinc-200 text-black">
+        <Navbar session={session} />
         <main>
           <Providers>{children}</Providers>
         </main>

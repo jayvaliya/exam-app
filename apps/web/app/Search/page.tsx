@@ -1,14 +1,13 @@
-import React from 'react'
 import { BsGlobeAsiaAustralia } from "react-icons/bs";
 
-function page() {
+function SearchPage() {
     return (
         <div className='p-10'>
-            <p className='text-2xl font-bold'>
-                Search The W<BsGlobeAsiaAustralia className='text-base inline' />rld ;{')'}
+            <p className='text-3xl font-bold font-mono'>
+                Search The <BsGlobeAsiaAustralia className='text-xl inline' />cean of Knowledge ;{')'}
             </p>
         </div>
     )
 }
 
-export default page
+export default SearchPage;

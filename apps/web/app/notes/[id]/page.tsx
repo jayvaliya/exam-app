@@ -5,13 +5,14 @@ import EditorJS from "@editorjs/editorjs";
 import axios from "axios";
 import BlackButton from "@repo/ui/black-button";
 import Modal from "@repo/ui/modal";
+import { NextResponse } from "next/server";
 const NLPCloudClient = require('nlpcloud');
 
 const client = new NLPCloudClient({ model: 'bart-large-cnn', token: 'ebbed49b2a61c533caf5ad4b494b039411e336a9' });
 
 function Page({ params }: { params: { id: string } }) {
     const { id } = params;
-    const [note, setNote] = useState<any>(null);
+    const [note, setNote] = useState(null);
     const [showModal, setShowModal] = useState(false);
     const [summary, setSummary] = useState("");
 
@@ -54,10 +55,11 @@ function Page({ params }: { params: { id: string } }) {
             }
         }
     }, [note]);
-
-    function extractTextFromEditorJs(editorData: any) {
+    // @ts-expect-error Type 'string' is not assignable to type 'string | undefined'.
+    function extractTextFromEditorJs(editorData) {
         return editorData.blocks
-            .map((block: any) => {
+            // @ts-expect-error Type 'string' is not assignable to type 'string | undefined'.
+            .map((block) => {
                 switch (block.type) {
                     case "paragraph":
                     case "header":
@@ -65,16 +67,19 @@ function Page({ params }: { params: { id: string } }) {
                     case "list":
                         return block.data.items.join(" ");
                     case "image":
-                        return block.data.caption || ""; // Include caption if present
+                        return block.data.caption || "";
+                    case "quote":
+                        return ` `;
                     case "attaches":
-                        return block.data.title || ""; // Include title if present
+                        return block.data.title || "";
                     default:
-                        return ""; // Skip unsupported block types
+                        return "";
                 }
             })
             .filter(Boolean) // Remove empty strings
             .join(" ");
     }
+
 
     const summarize = async () => {
         try {
@@ -82,10 +87,12 @@ function Page({ params }: { params: { id: string } }) {
             const extractedText = extractTextFromEditorJs(parsedContent);
 
             client.summarization({ text: extractedText })
-                .then(function (response: any) {
+                .then(function (response: NextResponse) {
+                    // @ts-expect-error Type 'string' is not assignable to type 'SetStateAction<string>'.
                     setSummary(response.data.summary_text);
                 })
-                .catch(function (err: any) {
+                // @ts-expect-error Type 'string' is not assignable to type 'SetStateAction<string>'.
+                .catch(function (err) {
                     console.error(err.response.status);
                     console.error(err.response.data.detail);
                 });
@@ -105,12 +112,12 @@ function Page({ params }: { params: { id: string } }) {
 
     return (
         <div className="p-6 md:mx-[10%]">
-            <h1 className="md:ml-[10%] mt-5 text-3xl font-bold mb-4">
+            <div className="md:ml-[10%] text-center mt-5 text-3xl font-bold mb-4">
                 {note.title}
-            </h1>
+            </div>
             <div
                 id="editorjs"
-                className="border border-gray-300 rounded p-4"
+                className="rounded p-4"
                 style={{ minHeight: "300px" }}
             ></div>
 
@@ -119,9 +126,6 @@ function Page({ params }: { params: { id: string } }) {
                 <BlackButton text="Summary" onClick={summarize} />
                 : ''}
 
-            <small className="text-gray-500 mt-4 block">
-                Created at: {new Date(note.createdAt).toLocaleString()}
-            </small>
             {summary && (
                 <div className="mt-4">
                     <h2 className="text-2xl font-bold">Summary</h2>

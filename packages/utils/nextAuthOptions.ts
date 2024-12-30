@@ -47,7 +47,9 @@ const nextAuthOptions: NextAuthOptions = {
             if (token) {
                 session.user = {
                     ...session.user,
+                    // @ts-ignore
                     id: token.id as string,
+                    profilePicture: token.profilePicture || null,
                 };
             }
             return session;

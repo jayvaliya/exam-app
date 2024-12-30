@@ -1,12 +1,13 @@
 // app/page.tsx
 import { PrismaClient } from '@prisma/client';
 import { getServerSession } from 'next-auth';
+import nextAuthOptions from '../../../../packages/utils/nextAuthOptions';
 
 
 const prisma = new PrismaClient();
 
 export default async function Home() {
-    const session = await getServerSession();
+    const session = await getServerSession(nextAuthOptions);
     if (session?.user?.email !== "valiyajay555@gmail.com") {
         return (
             <div>
@@ -20,7 +21,7 @@ export default async function Home() {
 
     return (
         <div>
-            <h1>Student List</h1>
+            <h1>Users List</h1>
             {students.length > 0 ? (
                 <ul>
                     {students.map((user) => (

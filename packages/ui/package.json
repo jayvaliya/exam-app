@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "exports": {
+    "./list-item": "./src/list-item.tsx",
+    "./logo": "./src/logo.tsx",
     "./modal": "./src/modal.tsx",
     "./icon": "./src/icon.tsx",
     "./text-button": "./src/text-button.tsx",
